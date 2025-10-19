@@ -72,7 +72,7 @@ st.subheader(f"Upcoming {selected_sport} Games")
 # Button to fetch data
 if st.button("Fetch Games and Predictions"):
     with st.spinner("Fetching Games and Predictions..."):
-        data = BestBetBackend.main()
+        data = bestBetBackend.main()
 
         if selected_sport == "NFL":
             games = data["nflGames"]
@@ -97,4 +97,5 @@ if st.button("Fetch Games and Predictions"):
 # Default message
 else:
     st.info(f"Click the button above to fetch upcoming {selected_sport} games and predictions.")
+
 
