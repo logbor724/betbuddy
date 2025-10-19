@@ -17,7 +17,7 @@ def get_upcoming_games(league, count=3):
     )
 
     response = client.responses.create(
-        model="gpt-5",
+        model="gpt-4.1",
         tools=[{"type": "web_search"}],
         input=prompt
     )
@@ -169,4 +169,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
