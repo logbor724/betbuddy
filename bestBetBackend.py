@@ -4,7 +4,7 @@ import os
 from openai import OpenAI
 sys.stdout.reconfigure(encoding='utf-8')
 
-# Do not push this key to GitHub or Streamlit Cloud, it will shut the key off and im not making new ones.
+# Do not push this key to github or streamlit cloud, it will shut the key off and im not making new ones.
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Get upcoming games for analysis
@@ -17,7 +17,7 @@ def get_upcoming_games(league, count=3):
     )
 
     response = client.responses.create(
-        model="gpt-4.1",
+        model="gpt-5-mini",
         tools=[{"type": "web_search"}],
         input=prompt
     )
@@ -169,5 +169,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
