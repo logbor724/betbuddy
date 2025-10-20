@@ -3,7 +3,7 @@ import re
 from openai import OpenAI
 sys.stdout.reconfigure(encoding='utf-8')
 
-# Do not push this key to GitHub or Streamlit Cloud, it will shut the key off and im not making new ones.
+# Do not push api key to github or streamlit cloud, it will shut the key off and im not making new ones
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Get upcoming games for analysis
@@ -168,3 +168,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
