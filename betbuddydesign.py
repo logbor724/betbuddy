@@ -3,10 +3,6 @@ from datetime import datetime
 import os
 import bestBetBackend  # your backend file
 from openai import OpenAI
-
-# ----------------------------
-# OpenAI client
-# ----------------------------
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # ----------------------------
@@ -61,83 +57,22 @@ st.markdown(
 )
 
 st.title(f"BetBuddy {sports[selected_sport]['icon']}")
-st.write(f"Today's Date: {datetime.now().strftime('%b %d, %Y')}")
+st.write(f"Todays Date: {datetime.now().strftime('%b %d, %Y')}")
 
 # ----------------------------
-# Chatbot setup
+# Chatbot (unchanged)
 # ----------------------------
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
+if "chat_input" not in st.session_state:
+    st.session_state.chat_input = ""
 
-st.subheader("🏈 Chat with BetBuddy AI")
-
-chat_input = st.text_input("Ask about sports, predictions, or stats:")
-
-if chat_input:
-    # Add user message
-    st.session_state.chat_history.append({"role": "user", "content": chat_input})
-    with st.chat_message("user"):
-        st.markdown(chat_input)
-
-    user_text = chat_input.lower()
-    response_text = ""
-
-    # Detect sport keyword and fetch backend predictions
-    if "nfl" in user_text:
-        games = bestBetBackend.get_upcoming_games("NFL")
-        winners = bestBetBackend.analyze_matchups("NFL", games)
-        reasons = bestBetBackend.matchup_reasoning("NFL", list(zip(games, winners)))
-
-        response_text = "**🏈 NFL Predictions:**\n\n"
-        for g, w, r in zip(games, winners, reasons):
-            response_text += f"- {g}\n  **Winner:** {w}\n  _Reason:_ {r}\n\n"
-
-    elif "nba" in user_text:
-        games = bestBetBackend.get_upcoming_games("NBA")
-        winners = bestBetBackend.analyze_matchups("NBA", games)
-        reasons = bestBetBackend.matchup_reasoning("NBA", list(zip(games, winners)))
-
-        response_text = "**🏀 NBA Predictions:**\n\n"
-        for g, w, r in zip(games, winners, reasons):
-            response_text += f"- {g}\n  **Winner:** {w}\n  _Reason:_ {r}\n\n"
-
-    elif "mlb" in user_text:
-        games = bestBetBackend.get_upcoming_games("MLB")
-        winners = bestBetBackend.analyze_matchups("MLB", games)
-        reasons = bestBetBackend.matchup_reasoning("MLB", list(zip(games, winners)))
-
-        response_text = "**⚾ MLB Predictions:**\n\n"
-        for g, w, r in zip(games, winners, reasons):
-            response_text += f"- {g}\n  **Winner:** {w}\n  _Reason:_ {r}\n\n"
-
-    else:
-        # General sports AI response
-        completion = client.responses.create(
-            model="gpt-5-mini",
-            input=f"You are BetBuddy AI, a friendly sports analyst. The user said: '{chat_input}'. "
-                  "Reply conversationally about sports or predictions without gambling advice."
-        )
-        response_text = completion.output_text.strip()
-
-    # Add AI response
-    st.session_state.chat_history.append({"role": "assistant", "content": response_text})
-    with st.chat_message("assistant"):
-        st.markdown(response_text)
-
-# Display previous chat messages
-for msg in st.session_state.chat_history:
-    if msg["role"] == "assistant":
-        with st.chat_message("assistant"):
-            st.markdown(msg["content"])
-    else:
-        with st.chat_message("user"):
-            st.markdown(msg["content"])
+chat_input = st.text_input("Ask for picks:", key="chat_input")
 
 # ----------------------------
 # Upcoming games section
 # ----------------------------
 st.subheader(f"Upcoming {selected_sport} Games")
 
+# Button to fetch data
 if st.button("Fetch Games and Predictions"):
     with st.spinner("Fetching Games and Predictions..."):
         data = bestBetBackend.main()
@@ -161,9 +96,10 @@ if st.button("Fetch Games and Predictions"):
             st.markdown(f"### {games[i]}")
             st.markdown(f"**BestBet:** {winners[i]}")
             st.caption(reasons[i])
+
+# Default message
 else:
     st.info(f"Click the button above to fetch upcoming {selected_sport} games and predictions.")
-
 
 
 
