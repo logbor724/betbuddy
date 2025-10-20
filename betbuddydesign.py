@@ -1,5 +1,6 @@
 import streamlit as st
 from datetime import datetime
+import os
 import bestBetBackend  # your backend file
 from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -99,6 +100,7 @@ if st.button("Fetch Games and Predictions"):
 # Default message
 else:
     st.info(f"Click the button above to fetch upcoming {selected_sport} games and predictions.")
+
 
 
 
