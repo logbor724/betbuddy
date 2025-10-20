@@ -132,16 +132,16 @@ def main():
 
     for league, games, winners, reasons in leagues:
         print(f"\n--- {league} ---")
-
-        # Step 1: Get matchups
+        
+        # get matchups
         games_list = get_upcoming_games(league)
         games.extend(games_list)
 
-        # Step 2: Predict winners
+        # predict winners
         winners_list = analyze_matchups(league, games_list)
         winners.extend(winners_list)
 
-        # Step 3: Combine and reason
+        # combine and reason
         matchups = list(zip(games_list, winners_list))
         reasons_list = matchup_reasoning(league, matchups)
         reasons.extend(reasons_list)
@@ -169,6 +169,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
