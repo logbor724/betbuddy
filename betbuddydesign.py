@@ -138,28 +138,36 @@ for msg in st.session_state.chat_history:
 # ----------------------------
 st.subheader(f"Upcoming {selected_sport} Games")
 
+# Initialize session state for stored predictions
+if "fetched_data" not in st.session_state:
+    st.session_state.fetched_data = None
+
+# Button triggers fetching only once
 if st.button("Fetch Games and Predictions"):
     with st.spinner("Fetching Games and Predictions..."):
-        data = bestBetBackend.main()
-
-        if selected_sport == "NFL":
-            games = data["nflGames"]
-            winners = data["nflWinners"]
-            reasons = data["nflReasoning"]
-        elif selected_sport == "NBA":
-            games = data["nbaGames"]
-            winners = data["nbaWinners"]
-            reasons = data["nbaReasoning"]
-        else:
-            games = data["mlbGames"]
-            winners = data["mlbWinners"]
-            reasons = data["mlbReasoning"]
-
+        st.session_state.fetched_data = bestBetBackend.main()
         st.success(f"{selected_sport} Predictions Generated!")
 
-        for i in range(len(games)):
-            st.markdown(f"### {games[i]}")
-            st.markdown(f"**BestBet:** {winners[i]}")
-            st.caption(reasons[i])
+# Use stored results
+if st.session_state.fetched_data:
+    data = st.session_state.fetched_data
+
+    if selected_sport == "NFL":
+        games = data["nflGames"]
+        winners = data["nflWinners"]
+        reasons = data["nflReasoning"]
+    elif selected_sport == "NBA":
+        games = data["nbaGames"]
+        winners = data["nbaWinners"]
+        reasons = data["nbaReasoning"]
+    else:
+        games = data["mlbGames"]
+        winners = data["mlbWinners"]
+        reasons = data["mlbReasoning"]
+
+    for i in range(len(games)):
+        st.markdown(f"### {games[i]}")
+        st.markdown(f"**BestBet:** {winners[i]}")
+        st.caption(reasons[i])
 else:
     st.info(f"Click the button above to fetch upcoming {selected_sport} games and predictions.")
