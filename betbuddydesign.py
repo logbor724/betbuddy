@@ -92,9 +92,7 @@ if chat_input:
     for g, w, r in zip(games, winners, reasons):
         response_text += f"- {g}\n **Winner:** {w}\n _Reason:_ {r}\n\n"
     
-
-
-    elif "nba" in user_text:
+        elif "nba" in user_text:
         games = bestBetBackend.get_upcoming_games("NBA")
         winners = bestBetBackend.analyze_matchups("NBA", games)
         reasons = bestBetBackend.matchup_reasoning("NBA", list(zip(games, winners)))
@@ -103,7 +101,7 @@ if chat_input:
         for g, w, r in zip(games, winners, reasons):
             response_text += f"- {g}\n  **Winner:** {w}\n  _Reason:_ {r}\n\n"
 
-    elif "mlb" in user_text:
+        elif "mlb" in user_text:
         games = bestBetBackend.get_upcoming_games("MLB")
         winners = bestBetBackend.analyze_matchups("MLB", games)
         reasons = bestBetBackend.matchup_reasoning("MLB", list(zip(games, winners)))
@@ -178,6 +176,7 @@ if st.session_state.fetched_data:
 
 else:
     st.info(f"Click the button above to fetch upcoming {selected_sport} games and predictions.")
+
 
 
 
