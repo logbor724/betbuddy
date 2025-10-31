@@ -1,17 +1,13 @@
 import streamlit as st
 from datetime import datetime
 import os
-import bestBetBackend  # your backend file
+import bestBetBackend  
 from openai import OpenAI
 
-# ----------------------------
 # OpenAI client
-# ----------------------------
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# ----------------------------
 # Sidebar setup and colors
-# ----------------------------
 sports = {
     "NFL": {"icon": "🏈", "hue": 120},
     "NBA": {"icon": "🏀", "hue": 0},
@@ -63,9 +59,7 @@ st.markdown(
 st.title(f"BetBuddy {sports[selected_sport]['icon']}")
 st.write(f"Today's Date: {datetime.now().strftime('%b %d, %Y')}")
 
-# ----------------------------
 # Chatbot setup
-# ----------------------------
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
@@ -133,9 +127,7 @@ for msg in st.session_state.chat_history:
         with st.chat_message("user"):
             st.markdown(msg["content"])
 
-# ----------------------------
 # Upcoming games section
-# ----------------------------
 st.subheader(f"Upcoming {selected_sport} Games")
 
 # Initialize session state for stored predictions
@@ -175,4 +167,5 @@ if st.session_state.fetched_data:
 
 else:
     st.info(f"Click the button above to fetch upcoming {selected_sport} games and predictions.")
+
 
