@@ -166,8 +166,13 @@ if st.session_state.fetched_data:
         reasons = data["mlbReasoning"]
 
     for i in range(len(games)):
-        st.markdown(f"### {games[i]}")
-        st.markdown(f"**BestBet:** {winners[i]}")
-        st.caption(reasons[i])
+    st.markdown(f"### {games[i]}")
+    st.markdown(f"**BestBet:** {winners[i]}")
+    st.markdown(
+        f"<p style='color:#8ab4f8; font-size:16px; font-style:italic;'>💡 {reasons[i]}</p>",
+        unsafe_allow_html=True
+    )
+
 else:
     st.info(f"Click the button above to fetch upcoming {selected_sport} games and predictions.")
+
