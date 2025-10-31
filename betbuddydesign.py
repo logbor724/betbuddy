@@ -88,14 +88,9 @@ if chat_input:
         winners = bestBetBackend.analyze_matchups("NFL", games)
         reasons = bestBetBackend.matchup_reasoning("NFL", list(zip(games, winners)))
 
-        response_text = "**🏈 NFL Predictions:**<br><br>"
-    for g, w, r in zip(games, winners, reasons):
-        response_text += (
-            f"<b>{g}</b><br>"
-            f"🏆 <b>Winner:</b> {w}<br>"
-            f"<p style='color:#8ab4f8; font-size:16px; font-style:italic;'>💡 {r}</p><br>"
-    )
-
+        response_text = "**🏈 NFL Predictions:**\n\n"
+        for g, w, r in zip(games, winners, reasons):
+            response_text += f"- {g}\n  **Winner:** {w}\n  _Reason:_ {r}\n\n"
 
     elif "nba" in user_text:
         games = bestBetBackend.get_upcoming_games("NBA")
@@ -127,8 +122,7 @@ if chat_input:
     # Add AI response
     st.session_state.chat_history.append({"role": "assistant", "content": response_text})
     with st.chat_message("assistant"):
-    st.markdown(response_text, unsafe_allow_html=True)
-
+        st.markdown(response_text)
 
 # Display previous chat messages
 for msg in st.session_state.chat_history:
@@ -181,3 +175,4 @@ if st.session_state.fetched_data:
 
 else:
     st.info(f"Click the button above to fetch upcoming {selected_sport} games and predictions.")
+
